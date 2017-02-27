@@ -7,67 +7,60 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var expect = require('chai').expect;
 
-var Counter = require('../../src/components/counter');
-
+var Counter = require('../../src/frontend-apps/counter/counter.jsx');
 
 describe('Counter component.', () => {
 
-    var TestUtils = require('react-addons-test-utils');
-    var Simulate = TestUtils.Simulate;
+	var TestUtils = require('react-addons-test-utils');
+	var Simulate = TestUtils.Simulate;
 
-    var component;
-    var renderedDOMElement;
-    var interval = 20;
+	var component;
+	var renderedDOMElement;
+	var interval = 20;
 
+	before(() => {
+		component = TestUtils.renderIntoDocument(<Counter interval={interval} />);
+		renderedDOMElement = ReactDOM.findDOMNode(component);
+	});
 
-    before(() => {
-        component = TestUtils.renderIntoDocument(<Counter interval={interval} />);
-        renderedDOMElement = ReactDOM.findDOMNode(component);
-    });
+// `done` callback allows the test to wait for asynchronous code to complete
+	it('renders counter value', (done) => {
+		var counterValue = component.state.counter;
+		var renderedDOMNumber = parseInt(renderedDOMElement.querySelector('.-number').textContent);
 
+		expect(renderedDOMNumber).to.equal(counterValue);
 
-    // `done` callback allows the test to wait for asynchronous code to complete
-    it('renders counter value', (done) => {
-        var counterValue = component.state.counter;
-        var renderedDOMNumber = parseInt(renderedDOMElement.querySelector('.-number').textContent);
+		setTimeout(
+			() => {
+				var nextCounterValue = component.state.counter;
+				renderedDOMNumber = parseInt(renderedDOMElement.querySelector('.-number').textContent);
 
-        expect(renderedDOMNumber).to.equal(counterValue);
+				expect(nextCounterValue).to.equal(counterValue + 1);
+				expect(renderedDOMNumber).to.equal(nextCounterValue);
 
-        setTimeout(
-            () => {
-                var nextCounterValue = component.state.counter;
-                renderedDOMNumber = parseInt(renderedDOMElement.querySelector('.-number').textContent);
+				done();
+			}, interval);
+	});
 
-                expect(nextCounterValue).to.equal(counterValue + 1);
-                expect(renderedDOMNumber).to.equal(nextCounterValue);
+	it('increments counter when `+` button clicked', () => {
+		var currentCounterValue = parseInt(renderedDOMElement.querySelector('.-number').textContent);
+		var incrementButton = renderedDOMElement.querySelectorAll('.-button')[0];
 
-                done();
-            },
-            interval
-        );
-    });
+		Simulate.click(incrementButton);
 
+		var incrementedValue = parseInt(renderedDOMElement.querySelector('.-number').textContent);
 
-    it('increments counter when `+` button clicked', () => {
-        var currentCounterValue = parseInt(renderedDOMElement.querySelector('.-number').textContent);
-        var incrementButton = renderedDOMElement.querySelectorAll('.-button')[0];
+		expect(incrementedValue).to.equal(currentCounterValue + 1);
+	});
 
-        Simulate.click(incrementButton);
+	it('decrements counter when `-` button clicked', () => {
+		var currentCounterValue = parseInt(renderedDOMElement.querySelector('.-number').textContent);
+		var decrementButton = renderedDOMElement.querySelectorAll('.-button')[1];
 
-        var incrementedValue = parseInt(renderedDOMElement.querySelector('.-number').textContent);
+		Simulate.click(decrementButton);
 
-        expect(incrementedValue).to.equal(currentCounterValue + 1);
-    });
+		var decrementedValue = parseInt(renderedDOMElement.querySelector('.-number').textContent);
 
-
-    it('decrements counter when `-` button clicked', () => {
-        var currentCounterValue = parseInt(renderedDOMElement.querySelector('.-number').textContent);
-        var decrementButton = renderedDOMElement.querySelectorAll('.-button')[1];
-
-        Simulate.click(decrementButton);
-
-        var decrementedValue = parseInt(renderedDOMElement.querySelector('.-number').textContent);
-
-        expect(decrementedValue).to.equal(currentCounterValue - 1);
-    });
+		expect(decrementedValue).to.equal(currentCounterValue - 1);
+	});
 });
