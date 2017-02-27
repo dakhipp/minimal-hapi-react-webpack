@@ -5,13 +5,15 @@
 
 5. ensure css is being loaded top down and adds browser prefixes
 6. find css layout solution and suitable style guild lines
+7. Add Commons Chunck Plugin
+8. Add Web service workers
 
-7. set up testing variables
-8. split unit and integration tests
-9. set up code coverage for testing
-10. set up automated npm package security scan
+9. set up testing variables
+10. split unit and integration tests
+11. set up code coverage for testing
+12. set up automated npm package security scan
 
-11. really test dev / production mode, deploy to sever
-12. set up docker file
-13. deploy to code build
-14. deploy with ec2 container service
+13. really test dev / production mode, deploy to sever
+14. set up docker file
+15. deploy to code build
+16. deploy with ec2 container service
