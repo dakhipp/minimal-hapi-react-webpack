@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 	SERVER_PORT = process.env.PORT || 8080;
 } else if (process.env.NODE_ENV === 'production') {
 	SERVER_HOST = 'localhost';
-	SERVER_PORT = process.env.PORT || 6000;
+	SERVER_PORT = process.env.PORT || 8000;
 } else {
 	var errorText = '[' + path.basename(__filename) + '] ERROR: NODE_ENV is not set: ' + process.env.NODE_ENV;
 	console.log(chalk.red(errorText));
@@ -67,6 +67,8 @@ var config = {
 		viewsPath: 'views'
 	}
 };
+
+console.log(config.server.rootUrl)
 
 if (process.env.NODE_ENV === 'development') {
 	Object.assign(config.webpack, {

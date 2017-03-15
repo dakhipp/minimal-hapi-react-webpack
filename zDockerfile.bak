@@ -1,0 +1,58 @@
+# start from amazonlinux base image
+FROM centos:latest
+
+# install os level dependencies from yum package manager
+RUN yum update -y
+RUN yum install git nginx wget -y
+
+# install and configure nginx and naxsi nginx firewall, then clean up
+RUN mkdir /etc/nginx/conf
+RUN wget https://github.com/nbs-system/naxsi/archive/0.54.tar.gz
+RUN wget https://github.com/nbs-system/naxsi/archive/0.53.tar.gz
+RUN tar -xvzf 0.54.tar.gz
+RUN tar -xvzf 0.53.tar.gz
+RUN mv naxsi-0.54/  /usr/local/naxsi-0.54/
+RUN mv naxsi-0.53/nx_util/  /usr/local/naxsi-0.54/nx_util-0.53/
+RUN cp /usr/local/naxsi-0.54/naxsi_config/naxsi_core.rules /etc/nginx/conf/naxsi_core.rules
+RUN yum remove wget -y
+RUN rm 0.53.tar.gz
+RUN rm 0.54.tar.gz
+# ensure naxsis is still working, be weary of this command
+RUN rm -rf naxsi-0.53
+
+# install and build nodejs, npm, and n version manager
+RUN curl -L https://git.io/n-install | N_PREFIX=~/.utils/n bash -s -- -y
+
+# make project directory, clone repo, andfu install dependencies, 
+RUN mkdir -p /var/www/html
+WORKDIR /var/www/html
+COPY . /var/www/html
+RUN echo "<b>text</b>" >> ./index.html # test remove this ***
+
+# refesh .bashrc so node and npm are avilable, 
+# install global npm requirements
+# install all local npm requirements
+# build nginx.conf
+RUN /bin/bash -c "source ~/.bashrc \
+; npm i -g pm2 \
+&& npm i \
+; npm run make"
+
+# expose port 80
+EXPOSE 80
+
+# move nginx config
+RUN cp ./nginx.conf /etc/nginx/nginx.conf
+
+CMD ["service", "nginx", "start", ";", "npm", "run", "start"]
+
+# build code, mv nginx.conf, start pm2, start nginx
+
+
+# TODO
+# set up git/bitbucket ssl cert
+# build application directory
+# start nginx proxy back to pm2 running processes...
+# echo nginx config needed to proxy requests
+# add naxsi to nginx conf
+# run docker exposing port traffic

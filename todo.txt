@@ -13,7 +13,11 @@
 11. set up code coverage for testing
 12. set up automated npm package security scan
 
+13. Adjust npm commands to better suit codebuild and ec2 container service
 13. really test dev / production mode, deploy to sever
 14. set up docker file
 15. deploy to code build
 16. deploy with ec2 container service
+
+
+1. set up service workers
