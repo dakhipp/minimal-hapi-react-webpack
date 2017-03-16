@@ -36,4 +36,4 @@ RUN apt-get remove wget -y
 EXPOSE 80
 
 # restart nginx and start npm
-CMD service nginx restart ; npm start
+CMD service nginx start ; npm start
