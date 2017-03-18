@@ -25,7 +25,7 @@ class Counter extends React.Component {
 	render () {
 		return (
 			<div className='Counter'>
-				<h1>Counter (rendered on client)</h1>
+				<h1>Counter test (rendered on client)</h1>
 
 				<p>This is a counter component. It stores the count in its state.</p>
 				<p>If you edit any file that is bundled by webpack, webpack dev server will patch this page while preserving component state.</p>

@@ -27,7 +27,6 @@
     "dev": "NODE_ENV=development      node --harmony helper-scripts/make.js  &&  NODE_ENV=development  ./node_modules/nodemon/bin/nodemon.js --harmony src/server.js",
     "make": "NODE_ENV=development     node --harmony helper-scripts/make.js",
     "lint": "eslint . --ext .js --ext .jsx",
-    "postinstall": "npm run build",
     "test": "./node_modules/.bin/mocha --compilers jsx:babel-register --require ignore-styles ./tests/specs --recursive"
   },
   "dependencies": {

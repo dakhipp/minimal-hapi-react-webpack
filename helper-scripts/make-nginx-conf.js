@@ -23,7 +23,9 @@ http {
 
   # backend node processes
   upstream nodes {
-    server 127.0.0.1:8000;
+    # can remove this V
+    # server 127.0.0.1:8000;
+    server 127.0.0.1:${config.server.port};
     keepalive 64;
   }
 
@@ -45,7 +47,7 @@ http {
     error_log /logs/site-error-nginx.log;
 
     # handle static assets and enable compression and caching
-    location ~ \.(mp3|mp4|webm|png|jpg|svg|jpeg|ttf|woff|woff2|eot|js|css|min.js|min.css|txt|xml) {
+    location ~ \.(mp3|mp4|webm|png|jpg|svg|jpeg|ttf|woff|woff2|eot|${process.env.NODE_ENV === 'development' ? '' : 'js|css|min.js|min.css|'}txt|xml) {
       root ${path.join(__dirname, '../public')};
       gzip on;
       gzip_disable msie6;
