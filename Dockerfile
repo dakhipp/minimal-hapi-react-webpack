@@ -22,13 +22,6 @@ COPY . /var/www/html
 # might not need this VVV
 RUN chmod 755 -R /var/www/html/public/
 
-# npm install and build nginx.conf
-# RUN npm i
-# RUN npm run build
-
-# move nginx config
-# RUN cp ./nginx.conf /etc/nginx/nginx.conf
-
 # clean up unneeded dependencies
 RUN apt-get remove wget -y
 
@@ -36,4 +29,4 @@ RUN apt-get remove wget -y
 EXPOSE 80
 
 # restart nginx and start npm
-CMD npm i ; cp ./nginx.conf /etc/nginx/nginx.conf ; service nginx start ; npm start
+CMD npm i ; npm run build ; cp ./nginx.conf /etc/nginx/nginx.conf ; service nginx start ; npm start

@@ -7,17 +7,3 @@ services:
     volumes:
     - .:/var/www/html/:rw
     tty: true
-    environment:
-    - NODE_ENV=dev
-    command: >
-      bash -c "
-        npm i
-        npm run make
-        cp nginx.conf /etc/nginx/nginx.conf
-        service nginx start &&
-        npm run dev &
-        npm run webpack
-      "
-
-
-    
